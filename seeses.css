@@ -621,9 +621,24 @@
 }
 
 .vault-title {
-  color: #ffd84d;
-  font-size: 2.5rem;
-  text-shadow: 3px 3px 0 #000;
+  font-size: 3rem;
+
+  background: linear-gradient(
+    180deg,
+    #B89D37,
+    #ffd84d
+  );
+
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  color: transparent;
+
+}
+
+#vaultInput::placeholder {
+  color: #699BF7;
+  opacity: 1;
 }
 
 #vaultText {
