@@ -366,7 +366,7 @@ const achievementDefs = [
   {
     id: 'secret-secret2',
     name: 'Semi-Secret',
-    desc: 'What is the elephant in the room?',
+    desc: 'What is the elephant in the room? Or I mean, Where?',
     series: 'Secret series',
     seriesKey: 'secret series',
     rarity: 'uncommon',
