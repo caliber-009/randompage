@@ -456,7 +456,7 @@ function unlockAchievementByAlert(rarity) {
   if (rarity === 'rare') unlockAchievement('luck-rare');
   if (rarity === 'epic') unlockAchievement('luck-epic');
   if (rarity === 'legendary') unlockAchievement('luck-legendary');
-  if (rarity === 'mythic') unlockAchievement('luck-mythic');
+  if (rarity === 'mythical') unlockAchievement('luck-mythic');
   renderAchievements();
 }
 
@@ -525,6 +525,96 @@ seriesFilter.addEventListener('change', renderAchievements);
 
 loadAchievements();
 renderAchievements();
-unlockAchievement('welcome', true);
-showToast(achievementDefs.find(a => a.id === 'welcome'));
+
+if (unlockAchievement('welcome', true)) {
+  showToast(achievementDefs.find(a => a.id === 'welcome'));
+}
+
 renderAchievements();
+
+const responses = [
+"I have heard about you",
+"You think you can fool me",
+"You are deeply mistaken",
+"Go away!",
+"You're not supposed to be in here...",
+"RubRub won't like this...",
+"zzzZZZZ...",
+"Don't touch that!",
+"Why you touch my stuff?",
+"You shall not pass!",
+"Don't push the button!",
+"You're gonna get me in trouble...",
+"Sneaky sneaky...",
+"It's my precious...",
+"Go collect some stars",
+"Maybe there are new levels?",
+"Just, stop bothering me",
+"I'm gonna stop talking",
+"...",
+"......",
+"GAH!",
+"You're hopeless...",
+"Really, still here?",
+"Fine, press the button"
+];
+
+const wrongResponses = [
+"WRONG",
+"Nope",
+"Swing and a miss!",
+"Door is still locked",
+"Try harder please",
+"Don't make me angry",
+"Failure",
+"May I suggest thinking?"
+];
+
+let responseIndex = 0;
+
+const vaultText = document.getElementById("vaultText");
+const input = document.getElementById("vaultInput");
+const keymaster = document.getElementById("keymaster");
+
+keymaster.addEventListener("click", () => {
+  const value = input.value.trim().toLowerCase();
+
+  if (value === "") {
+    vaultText.textContent = responses[responseIndex];
+    responseIndex = (responseIndex + 1) % responses.length;
+  } else {
+    const rand = wrongResponses[Math.floor(Math.random() * wrongResponses.length)];
+    vaultText.textContent = rand;
+  }
+
+  input.value = "";
+});
+
+let keymasterCooldown = false;
+
+keymaster.addEventListener("click", () => {
+  if (keymasterCooldown) return;
+
+  keymasterCooldown = true;
+
+  keymaster.classList.add("active");
+  setTimeout(() => {
+    keymaster.classList.remove("active");
+  }, 70);
+
+  setTimeout(() => {
+    keymasterCooldown = false;
+  }, 500);
+
+  const value = input.value.trim().toLowerCase();
+
+  if (value === "") {
+    vaultText.textContent = responses[responseIndex];
+    responseIndex = (responseIndex + 1) % responses.length;
+  } else {
+    const rand = wrongResponses[Math.floor(Math.random() * wrongResponses.length)];
+    vaultText.textContent = rand;
+  }
+
+  input.value = "";
+});
