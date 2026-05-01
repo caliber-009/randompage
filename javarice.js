@@ -372,6 +372,33 @@ const achievementDefs = [
     rarity: 'uncommon',
     icon: '??'
   },
+  {
+    id: 'secret-secret3',
+    name: 'Secret',
+    desc: 'What if you "Inspect"?',
+    series: 'Secret series',
+    seriesKey: 'secret series',
+    rarity: 'rare',
+    icon: '???'
+  },
+  {
+    id: 'gd',
+    name: 'Our Geometry Dash',
+    desc: 'Enter litreally every vault of secrets code available in gd',
+    series: 'Main web seriess',
+    seriesKey: 'main web series',
+    rarity: 'rare',
+    icon: 'https://i.redd.it/uz8gl6ue0p2d1.jpeg'
+  },
+  {
+    id: 'coin',
+    name: 'Glubfub',
+    desc: 'THIEF! THIEF!',
+    series: 'Main web seriess',
+    seriesKey: 'main web series',
+    rarity: 'uncommon',
+    icon: 'https://media.tenor.com/lFqq1S5jr6IAAAAj/geometry-dash-secret-coin.gif'
+  },
 ];
 
 const seriesIcons = {
@@ -619,6 +646,8 @@ const wrongResponses = [
 "May I suggest thinking?"
 ];
 
+
+
 let responseIndex = 0;
 
 const vaultText = document.getElementById("vaultText");
@@ -626,44 +655,144 @@ const input = document.getElementById("vaultInput");
 const keymaster = document.getElementById("keymaster");
 
 keymaster.addEventListener("click", () => {
-  const value = input.value.trim().toLowerCase();
-
-  if (value === "") {
-    vaultText.textContent = responses[responseIndex];
-    responseIndex = (responseIndex + 1) % responses.length;
-  } else {
-    const rand = wrongResponses[Math.floor(Math.random() * wrongResponses.length)];
-    vaultText.textContent = rand;
-  }
-
-  input.value = "";
-});
-
-let keymasterCooldown = false;
-
-keymaster.addEventListener("click", () => {
   if (keymasterCooldown) return;
-
   keymasterCooldown = true;
 
-  keymaster.classList.add("active");
-  setTimeout(() => {
-    keymaster.classList.remove("active");
-  }, 70);
+  try {
+    const value = input.value.trim().toLowerCase();
 
-  setTimeout(() => {
-    keymasterCooldown = false;
-  }, 500);
+    if (vaultCodes[value] && !usedVaultCodes.has(value)) {
+      const code = vaultCodes[value];
 
-  const value = input.value.trim().toLowerCase();
+      vaultText.textContent = code.text;
+      usedVaultCodes.add(value);
 
-  if (value === "") {
-    vaultText.textContent = responses[responseIndex];
-    responseIndex = (responseIndex + 1) % responses.length;
-  } else {
-    const rand = wrongResponses[Math.floor(Math.random() * wrongResponses.length)];
-    vaultText.textContent = rand;
+      if (code.unlock) unlockAchievement(code.unlock);
+      if (vaultCodes[value]) incrementGDProgress(value);
+      if (value === "glubfub") spawnCoin();
+
+    } else if (value === "") {
+      vaultText.textContent = responses[responseIndex];
+      responseIndex = (responseIndex + 1) % responses.length;
+
+    } else {
+      const rand = wrongResponses[Math.floor(Math.random() * wrongResponses.length)];
+      vaultText.textContent = rand;
+    }
+
+    input.value = "";
+
+  } finally {
+    setTimeout(() => {
+      keymasterCooldown = false;
+    }, 400);
   }
-
-  input.value = "";
 });
+let keymasterCooldown = false;
+
+input.value = "";
+
+const vaultCodes = {
+  "the challenge": {
+    text: "My level? You want to try it!?",
+    id: "gd"
+  },
+  "octocube": {
+    text: "Ugh... Slippery",
+    id: "gd"
+  },
+  "seven": {
+    text: "I should have been a doctor...",
+    id: "gd"
+  },
+  "brainpower": {
+    text: "O-oooooooooo AAAAE-A-A-I-A-U- JO-oooooooooooo!",
+    id: "gd"
+  },
+  "thechickenisonfire": {
+    text: "Indeed it is... Or zZzZzZ..",
+    id: "gd"
+  },
+  "gimmiethecolor": {
+    text: "How many colors do you need?",
+    id: "gd"
+  },
+  "d4shg30me7ry": {
+    text: "Good times",
+    id: "gd"
+  },
+  "thechickenisready": {
+    text: "You overcooked it again!",
+    id: "gd"
+  },
+
+  "7917281818277": {
+    text: "You solved it? You're better than we expected... Here's a reward.",
+    unlock: "secret-secret3"
+  },
+  "glubfub": {
+    text: "NOOOO!! THIEF! THIEF!",
+    unlock: "coin"
+  }
+};
+
+const gdRequiredCodes = Object.keys(vaultCodes).filter(k => {
+  const v = vaultCodes[k];
+  return v.id === "gd" || k === "glubfub";
+});
+
+let gdProgress = new Set(
+  JSON.parse(localStorage.getItem("gdProgress") || "[]")
+);
+
+let usedVaultCodes = new Set();
+
+function spawnCoin() {
+  const coin = document.createElement("img");
+  coin.src = "https://media.tenor.com/lFqq1S5jr6IAAAAj/geometry-dash-secret-coin.gif";
+
+  coin.style.position = "fixed";
+  coin.style.left = "50%";
+  coin.style.top = "50%";
+  coin.style.transform = "translate(-50%, -50%)";
+  coin.style.width = "100px";
+  coin.style.zIndex = "9999";
+  coin.style.pointerEvents = "none";
+
+  document.body.appendChild(coin);
+
+  coin.animate([
+    { transform: "translate(-50%, -50%)" },
+    { transform: "translate(-50%, -120%)" },
+    { transform: "translate(-50%, -50%)" }
+  ], {
+    duration: 300,
+    easing: "ease-out"
+  });
+
+  setTimeout(() => {
+    coin.animate([
+      { transform: "translate(-50%, -50%)", opacity: 1 },
+      { transform: "translate(-50%, 200%)", opacity: 0 }
+    ], {
+      duration: 400,
+      easing: "ease-in",
+      fill: "forwards"
+    });
+  }, 300);
+
+  setTimeout(() => {
+    coin.remove();
+  }, 700);
+}
+
+function incrementGDProgress(code) {
+  if (!gdRequiredCodes.includes(code)) return;
+
+  gdProgress.add(code);
+  localStorage.setItem("gdProgress", JSON.stringify([...gdProgress]));
+
+  if (gdProgress.size === gdRequiredCodes.length) {
+    unlockAchievement("gd");
+  }
+}
