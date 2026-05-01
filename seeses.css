@@ -1,4 +1,4 @@
- :root{
+  :root{
     --bg1:#0d0d0d;
     --bg2:#151515;
     --card:#181818;
@@ -347,7 +347,16 @@
     font-size:2rem;
     flex:0 0 auto;
     user-select:none;
+    overflow: hidden;
   }
+  
+  .achievement-badge img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+}
   .achievement-badge.locked{
     background:rgba(150,150,150,0.10) !important;
     color:rgba(255,255,255,0.20) !important;
@@ -440,6 +449,14 @@
   display: grid;
   place-items: center;
   font-size: 1.4rem;
+    overflow: hidden;
+}
+
+.toast-icon img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
 }
 
 .toast-copy{
@@ -599,18 +616,7 @@
     .tab-strip{order:2; width:100%}
     .browser-tab{min-width:140px}
   }
-
-/* fonts */
-
-@font-face {
-  font-family: 'Pusab';
-  src: url('fonts/PUSAB___.otf') format('opentype');
-  font-weight: normal;
-  font-style: normal;
-}
-
-/* vault */
-
+  
   .vault {
   text-align: center;
   min-height: 80vh;
@@ -684,3 +690,6 @@
   width: 60px;
   cursor: pointer;
 }
+
+/* secret */
+#help {cursor: help;}
