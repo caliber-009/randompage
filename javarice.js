@@ -1,4 +1,4 @@
- // Tabs
+  // Tabs
   const shell = document.getElementById('shell');
   const tabButtons = document.querySelectorAll('.browser-tab[data-tab]');
   const panels = document.querySelectorAll('.tab-panel');
@@ -150,13 +150,23 @@
       text.innerText = 'EVIL LEVEL: EVILSTEVILEVIL EVER EVIL!! ASHES TO ASHES DUST TO DUST!!!';
     }
   }, 800);
+  
+const evilAudio = new Audio('https://www.image2url.com/r2/default/audio/1777512880290-63404ea0-e669-4433-b22b-112733929620.wav');
+evilAudio.loop = true;
 
-  function playEvil() {
-    const audio = new Audio('https://www.image2url.com/r2/default/audio/1777512880290-63404ea0-e669-4433-b22b-112733929620.wav');
-    audio.loop = true;
-    audio.play().catch(() => {});
+let isEvil = false;
+
+function playEvil() {
+  isEvil = !isEvil;
+
+  if (isEvil) {
+    evilAudio.play().catch(() => console.log("User interaction required first"));
     alert('your ears have been permanently damaged');
+  } else {
+    evilAudio.pause();
   }
+}
+
 
   // Tic Tac Toe
   const boardEl = document.getElementById('board');
@@ -343,12 +353,22 @@ const achievementDefs = [
     seriesKey: 'luck series',
     rarity: 'mythical',
     icon: '💚'
+  },
+  {
+    id: 'secret-secret1',
+    name: 'Secret I',
+    desc: 'Find a secret somewhere in the Exposal Tab.',
+    series: 'Secret series',
+    seriesKey: 'secret series',
+    rarity: 'common',
+    icon: '?'
   }
 ];
 
 const seriesIcons = {
   'main web series': 'https://static.thenounproject.com/png/4815663-200.png',
-  'luck series': 'https://static.wikia.nocookie.net/enfuturama/images/b/b2/Seven_leaf_clover.jpg/revision/latest?cb=20090716004755'
+  'luck series': 'https://static.wikia.nocookie.net/enfuturama/images/b/b2/Seven_leaf_clover.jpg/revision/latest?cb=20090716004755',
+  'secret series': 'https://static.wikia.nocookie.net/findthechomiks-rbx/images/8/87/SecretSeriesIcon.png/revision/latest?cb=20260211223713'
 };
 
 const achievementSearch = document.getElementById('achievementSearch');
@@ -395,6 +415,10 @@ function playUnlockSfx() {
   const sfx = new Audio('https://www.image2url.com/r2/default/audio/1777542077123-29e89b0c-2257-4b14-a012-70da1fff2860.mp3');
   sfx.volume = 0.9;
   sfx.play().catch(() => {});
+}
+
+function freeAchievement() {
+  unlockAchievement('secret-secret1');
 }
 
 function showToast(ach) {
