@@ -351,7 +351,7 @@ const achievementDefs = [
     desc: 'Somehow get the mythical alert. Congrats lucky guy!',
     series: 'Luck series',
     seriesKey: 'luck series',
-    rarity: 'mythical',
+    rarity: 'mythic',
     icon: '/ImagesAudiosandVideos/Mythic.jpeg'
   },
   {
