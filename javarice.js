@@ -290,6 +290,7 @@ function playEvil() {
   resetBtn.addEventListener('click', resetGame);
 
 // Achievements
+// Achievements
 const achievementDefs = [
   {
     id: 'welcome',
@@ -334,7 +335,7 @@ const achievementDefs = [
     series: 'Luck series',
     seriesKey: 'luck series',
     rarity: 'epic',
-    icon: '/randompage/ImagesAudiosandVideos/Epic.jpeg'
+    icon: './ImagesAudiosandVideos/Epic.jpeg'
   },
   {
     id: 'luck-legendary',
@@ -343,7 +344,7 @@ const achievementDefs = [
     series: 'Luck series',
     seriesKey: 'luck series',
     rarity: 'legendary',
-    icon: '/randompage/ImagesAudiosandVideos/Legendary.jpeg'
+    icon: './ImagesAudiosandVideos/Legendary.jpeg'
   },
   {
     id: 'luck-mythic',
@@ -352,7 +353,7 @@ const achievementDefs = [
     series: 'Luck series',
     seriesKey: 'luck series',
     rarity: 'mythic',
-    icon: '/randompage/ImagesAudiosandVideos/Mythic.jpeg'
+    icon: './ImagesAudiosandVideos/Mythic.jpeg'
   },
   {
     id: 'secret-secret1',
@@ -384,20 +385,20 @@ const achievementDefs = [
   {
     id: 'gd',
     name: 'Our Geometry Dash',
-    desc: 'Enter litreally every vault of secrets code available in gd',
-    series: 'Main web seriess',
+    desc: 'Enter literally every vault of secrets code available in gd',
+    series: 'Main web series',
     seriesKey: 'main web series',
     rarity: 'rare',
-    icon: '/randompage/ImagesAudiosandVideos/OurGeometryDash.jpeg'
+    icon: './ImagesAudiosandVideos/OurGeometryDash.jpeg'
   },
   {
     id: 'coin',
     name: 'Glubfub',
     desc: 'THIEF! THIEF!',
-    series: 'Main web seriess',
+    series: 'Main web series',
     seriesKey: 'main web series',
     rarity: 'uncommon',
-    icon: '/randompage/ImagesAudiosandVideos/Glubfub.gif'
+    icon: './ImagesAudiosandVideos/Glubfub.gif'
   },
 ];
 
@@ -409,6 +410,8 @@ const seriesIcons = {
 
 const achievementSearch = document.getElementById('achievementSearch');
 const seriesFilter = document.getElementById('seriesFilter');
+const achievementGrid = document.getElementById('achievementGrid');
+const ACHIEVEMENT_STORAGE_KEY = 'houseofkindness_achievements_v1';
 
 const rarityLabels = {
   common: 'COMMON',
@@ -416,7 +419,7 @@ const rarityLabels = {
   rare: 'RARE',
   epic: 'EPIC',
   legendary: 'LEGENDARY',
-  mythical: 'MYTHICAL'
+  mythic: 'MYTHIC'
 };
 
 const achievementMeta = {
@@ -425,13 +428,20 @@ const achievementMeta = {
   rare: { label: 'rare', colorClass: 'rare' },
   epic: { label: 'epic', colorClass: 'epic' },
   legendary: { label: 'legendary', colorClass: 'legendary' },
-  mythical: { label: 'mythical', colorClass: 'mythical' }
+  mythic: { label: 'mythic', colorClass: 'mythic' },
+  mythical: { label: 'mythic', colorClass: 'mythic' }
 };
 
-const achievementGrid = document.getElementById('achievementGrid');
-const ACHIEVEMENT_STORAGE_KEY = 'houseofkindness_achievements_v1';
 let unlockedAchievements = new Set();
 let achievementCards = new Map();
+
+function getRarityMeta(rarity) {
+  return achievementMeta[rarity] || achievementMeta.common;
+}
+
+function isImageSrc(src) {
+  return typeof src === 'string' && /\.(png|jpg|jpeg|webp|gif|svg)$/i.test(src);
+}
 
 function loadAchievements() {
   try {
@@ -453,33 +463,39 @@ function playUnlockSfx() {
   sfx.play().catch(() => {});
 }
 
-function freeAchievement() {
-  unlockAchievement('secret-secret1');
-}
-
 function showToast(ach) {
+  const meta = getRarityMeta(ach.rarity);
+
   const toast = document.createElement('div');
-  toast.className = `toast ${achievementMeta[ach.rarity].colorClass}`;
-  const icon = ach.icon;
+  toast.className = `toast ${meta.colorClass}`;
 
-const isImage =
-  typeof icon === 'string' &&
-  /\.(png|jpg|jpeg|webp|gif)$/i.test(icon);
+  const iconWrap = document.createElement('div');
+  iconWrap.className = 'toast-icon';
 
-toast.innerHTML = `
-  <div class="toast-icon">
-    ${
-      isImage
-        ? `<img src="${icon}" alt="">`
-        : icon
-    }
-  </div>
-  <div class="toast-copy">
+  if (isImageSrc(ach.icon)) {
+    const img = document.createElement('img');
+    img.src = ach.icon;
+    img.alt = '';
+    img.onerror = () => {
+      iconWrap.textContent = '🏆';
+    };
+    iconWrap.appendChild(img);
+  } else {
+    iconWrap.textContent = ach.icon || '🏆';
+  }
+
+  const copy = document.createElement('div');
+  copy.className = 'toast-copy';
+  copy.innerHTML = `
     <div class="toast-title">Achievement Unlocked</div>
-    <div class="toast-desc">${ach.name}</div>
-  </div>
-`;
+    <div class="toast-desc"></div>
+  `;
+  copy.querySelector('.toast-desc').textContent = ach.name;
+
+  toast.appendChild(iconWrap);
+  toast.appendChild(copy);
   toastStack.appendChild(toast);
+
   setTimeout(() => toast.remove(), 3900);
 }
 
@@ -504,7 +520,7 @@ function unlockAchievementByAlert(rarity) {
   if (rarity === 'rare') unlockAchievement('luck-rare');
   if (rarity === 'epic') unlockAchievement('luck-epic');
   if (rarity === 'legendary') unlockAchievement('luck-legendary');
-  if (rarity === 'mythic') unlockAchievement('luck-mythic');
+  if (rarity === 'mythic' || rarity === 'mythical') unlockAchievement('luck-mythic');
   renderAchievements();
 }
 
@@ -532,24 +548,25 @@ function renderAchievementCard(id) {
   if (!ach || !card) return;
 
   const unlocked = unlockedAchievements.has(id);
+  const meta = getRarityMeta(ach.rarity);
+
   const badge = card.querySelector('[data-badge]');
   const seriesIconEl = card.querySelector('[data-series-icon]');
 
   card.classList.toggle('unlocked', unlocked);
   card.classList.toggle('locked', !unlocked);
 
-  badge.className = `achievement-badge ${unlocked ? achievementMeta[ach.rarity].colorClass : 'locked'}`;
-  const icon = ach.icon;
+  badge.className = `achievement-badge ${unlocked ? meta.colorClass : 'locked'}`;
 
-const isImage =
-  typeof icon === 'string' &&
-  (icon.startsWith('http://') || icon.startsWith('https://') || icon.includes('.png') || icon.includes('.jpg') || icon.includes('.webp'));
-
-badge.innerHTML = unlocked
-  ? (isImage
-      ? `<img src="${icon}" alt="" />`
-      : `${icon}`)
-  : '🔒';
+  if (unlocked) {
+    if (isImageSrc(ach.icon)) {
+      badge.innerHTML = `<img src="${ach.icon}" alt="" onerror="this.replaceWith(document.createTextNode('🏆'))">`;
+    } else {
+      badge.textContent = ach.icon || '🏆';
+    }
+  } else {
+    badge.textContent = '🔒';
+  }
 
   card.querySelector('[data-name]').textContent = ach.name;
   card.querySelector('[data-desc]').textContent = `${ach.series} • ${ach.desc}`;
@@ -560,22 +577,6 @@ badge.innerHTML = unlocked
   seriesIconEl.alt = ach.series;
   seriesIconEl.style.display = iconSrc ? 'block' : 'none';
 }
-
-// secret
-
-// Semi-secret achievement
-const helpEl = document.getElementById("help");
-let helpClicks = 0;
-
-helpEl.addEventListener("click", () => {
-  if (helpClicks >= 3) return;
-
-  helpClicks++;
-
-  if (helpClicks >= 3) {
-    unlockAchievement('secret-secret2');
-  }
-});
 
 function renderAchievements() {
   const query = (achievementSearch?.value || '').trim().toLowerCase();
@@ -594,8 +595,8 @@ function renderAchievements() {
   });
 }
 
-achievementSearch.addEventListener('input', renderAchievements);
-seriesFilter.addEventListener('change', renderAchievements);
+achievementSearch?.addEventListener('input', renderAchievements);
+seriesFilter?.addEventListener('change', renderAchievements);
 
 loadAchievements();
 renderAchievements();
@@ -603,8 +604,6 @@ renderAchievements();
 if (unlockAchievement('welcome', true)) {
   showToast(achievementDefs.find(a => a.id === 'welcome'));
 }
-
-renderAchievements();
 
 const responses = [
 "I have heard about you",
@@ -746,47 +745,53 @@ let gdProgress = new Set(
 let usedVaultCodes = new Set();
 
 function spawnCoin() {
-  const coinSound = new Audio("/randompage/ImagesAudiosandVideos/coin-collect-geometry-dash.mp3");
-  coinSound.play().catch(err => console.log("Audio play blocked until user interacts with the page."));
+  const coinSound = new Audio('./ImagesAudiosandVideos/coin-collect-geometry-dash.mp3');
+  coinSound.play().catch(() => {});
 
-  const coin = document.createElement("img");
-  coin.src = "/randompage/ImagesAudiosandVideos/.gif";
+  const coin = document.createElement('img');
+  coin.src = './ImagesAudiosandVideos/Glubfub.gif';
+  coin.alt = '';
 
-  coin.style.position = "fixed";
-  coin.style.left = "50%";
-  coin.style.top = "50%";
-  coin.style.transform = "translate(-50%, -50%)";
-  coin.style.width = "100px";
-  coin.style.zIndex = "9999";
-  coin.style.pointerEvents = "none";
+  coin.style.position = 'fixed';
+  coin.style.left = '50%';
+  coin.style.top = '50%';
+  coin.style.transform = 'translate(-50%, -50%)';
+  coin.style.width = '100px';
+  coin.style.zIndex = '9999';
+  coin.style.pointerEvents = 'none';
 
   document.body.appendChild(coin);
 
-  coin.animate([
-    { transform: "translate(-50%, -50%)" },
-    { transform: "translate(-50%, -120%)" },
-    { transform: "translate(-50%, -50%)" }
-  ], {
-    duration: 300,
-    easing: "ease-out"
-  });
+  coin.animate(
+    [
+      { transform: 'translate(-50%, -50%)' },
+      { transform: 'translate(-50%, -120%)' },
+      { transform: 'translate(-50%, -50%)' }
+    ],
+    {
+      duration: 300,
+      easing: 'ease-out'
+    }
+  );
 
   setTimeout(() => {
-    coin.animate([
-      { transform: "translate(-50%, -50%)", opacity: 1 },
-      { transform: "translate(-50%, 200%)", opacity: 0 }
-    ], {
-      duration: 400,
-      easing: "ease-in",
-      fill: "forwards"
-    });
+    coin.animate(
+      [
+        { transform: 'translate(-50%, -50%)', opacity: 1 },
+        { transform: 'translate(-50%, 200%)', opacity: 0 }
+      ],
+      {
+        duration: 400,
+        easing: 'ease-in',
+        fill: 'forwards'
+      }
+    );
   }, 300);
 
   setTimeout(() => {
     coin.remove();
   }, 700);
 }
-
 
 function incrementGDProgress(code) {
   if (!gdRequiredCodes.includes(code)) return;
