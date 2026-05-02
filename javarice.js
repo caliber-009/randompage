@@ -416,6 +416,10 @@ const achievementDefs = [
   }
 ];
 
+function freeAchievement() {
+  unlockAchievement('secret-secret1');
+}
+
 const seriesIcons = {
   'main web series': 'https://static.thenounproject.com/png/4815663-200.png',
   'luck series': 'https://static.wikia.nocookie.net/enfuturama/images/b/b2/Seven_leaf_clover.jpg/revision/latest?cb=20090716004755',
