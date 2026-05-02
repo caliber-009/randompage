@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="https://limbuscompany.wiki.gg/images/thumb/S948.png/300px-S948.png?8fc092" width="200">
+  <img src="ImagesAudiosandVideos/houseofspida.jpg" width="250">
 </p>
 
 <p align="center">
