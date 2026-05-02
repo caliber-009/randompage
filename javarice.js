@@ -464,9 +464,7 @@ function showToast(ach) {
 
 const isImage =
   typeof icon === 'string' &&
-  (icon.startsWith('http://') ||
-   icon.startsWith('https://') ||
-   icon.match(/\.(png|jpg|jpeg|webp|gif)$/));
+  /\.(png|jpg|jpeg|webp|gif)$/i.test(icon);
 
 toast.innerHTML = `
   <div class="toast-icon">
