@@ -9,6 +9,8 @@ const closeBtn = document.getElementById('closeBtn');
 const toastStack = document.getElementById('toastStack');
 
 const randomMessages = [
+  // commmon
+  
   { text: 'Window says: absolutely not.', rarity: 'common' },
   { text: 'Tab gremlin has been spotted.', rarity: 'common' },
   { text: 'This button is on vacation.', rarity: 'common' },
@@ -19,7 +21,6 @@ const randomMessages = [
   { text: 'Minimize achieved. Meaning: none.', rarity: 'common' },
   { text: 'Fullscreen mode: emotionally prepared.', rarity: 'common' },
   { text: 'Close button: still unionized.', rarity: 'common' },
-
   { text: 'A tiny beep echoes from the void.', rarity: 'common' },
   { text: 'Mouse cursor feels judged.', rarity: 'common' },
   { text: 'The browser tab blinks once.', rarity: 'common' },
@@ -30,6 +31,8 @@ const randomMessages = [
   { text: 'The alert daemon yawns.', rarity: 'common' },
   { text: 'This is a legally distinct window.', rarity: 'common' },
   { text: 'Somewhere, a close icon giggles.', rarity: 'common' },
+
+  //uncommon
 
   { text: 'Medium rarity event: button confidence up.', rarity: 'uncommon' },
   { text: 'The tab strip has entered its dramatic era.', rarity: 'uncommon' },
@@ -42,6 +45,8 @@ const randomMessages = [
   { text: 'A tab separator has feelings too.', rarity: 'uncommon' },
   { text: 'The alert smelled like pixels.', rarity: 'uncommon' },
 
+  // rare
+
   { text: 'Rare event unlocked: tiny thunderclap.', rarity: 'rare' },
   { text: 'The maximize button achieved enlightenment.', rarity: 'rare' },
   { text: 'The close icon blinked in Morse code.', rarity: 'rare' },
@@ -52,6 +57,8 @@ const randomMessages = [
   { text: 'Some pixels bowed respectfully.', rarity: 'rare' },
   { text: 'The browser moonwalked for one frame.', rarity: 'rare' },
   { text: 'A rare beep with ancestral energy.', rarity: 'rare' },
+
+  // epic
 
   { text: 'Ultra rare: the window whispered “hi”.', rarity: 'epic' },
   { text: 'Legendary alert: no one expected this.', rarity: 'epic' },
@@ -64,6 +71,8 @@ const randomMessages = [
   { text: 'A clean, impossible click resonance.', rarity: 'epic' },
   { text: 'Window boss fight music starts, then stops.', rarity: 'epic' },
 
+  //legendary
+
   { text: 'Chrome legend: the tab developed lore.', rarity: 'legendary' },
   { text: 'Obscure miracle: the shell sighed.', rarity: 'legendary' },
   { text: 'A once-in-a-blue-moon alert emerged.', rarity: 'legendary' },
@@ -74,6 +83,8 @@ const randomMessages = [
   { text: 'The frame cracked with prestige.', rarity: 'legendary' },
   { text: 'You have discovered a rare browser relic.', rarity: 'legendary' },
   { text: 'A legendary ding from beyond the monitor.', rarity: 'legendary' },
+
+  //mythic
 
   { text: 'Transcendent rarity: the tab smiled back.', rarity: 'mythic' },
   { text: 'Mythic alert: the window now has opinions.', rarity: 'mythic' },
