@@ -151,7 +151,7 @@
     }
   }, 800);
   
-const evilAudio = new Audio('https://www.image2url.com/r2/default/audio/1777512880290-63404ea0-e669-4433-b22b-112733929620.wav');
+const evilAudio = new Audio('THISBEATISSOFIREEE.wav');
 evilAudio.loop = true;
 
 let isEvil = false;
