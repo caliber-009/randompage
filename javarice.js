@@ -94,7 +94,7 @@
       rare: 9,
       epic: 5,
       legendary: 2,
-      mythic: 100
+      mythic: 1
     };
     const roll = Math.random() * 100;
     let acc = 0;
@@ -151,7 +151,7 @@
     }
   }, 800);
   
-const evilAudio = new Audio('THISBEATISSOFIREEE.wav');
+const evilAudio = new Audio('ImagesAudiosandVideos/THISBEATISSOFIREEE.wav');
 evilAudio.loop = true;
 
 let isEvil = false;
@@ -504,7 +504,7 @@ function unlockAchievementByAlert(rarity) {
   if (rarity === 'rare') unlockAchievement('luck-rare');
   if (rarity === 'epic') unlockAchievement('luck-epic');
   if (rarity === 'legendary') unlockAchievement('luck-legendary');
-  if (rarity === 'mythical') unlockAchievement('luck-mythic');
+  if (rarity === 'mythic') unlockAchievement('luck-mythic');
   renderAchievements();
 }
 
