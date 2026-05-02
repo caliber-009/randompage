@@ -334,7 +334,7 @@ const achievementDefs = [
     series: 'Luck series',
     seriesKey: 'luck series',
     rarity: 'epic',
-    icon: 'https://images.steamusercontent.com/ugc/5102047032361210760/DCB3DEF7E208B637EA557F19557D3677053DD83F/?imw=637&imh=358&ima=fit&impolicy=Letterbox&imcolor=%23000000&letterbox=true'
+    icon: 'Epic.jpeg'
   },
   {
     id: 'luck-legendary',
@@ -343,7 +343,7 @@ const achievementDefs = [
     series: 'Luck series',
     seriesKey: 'luck series',
     rarity: 'legendary',
-    icon: 'https://media.tenor.com/jUrxPCkTJWUAAAAe/gem-diamond.png'
+    icon: 'Legendary.jpeg'
   },
   {
     id: 'luck-mythic',
@@ -352,7 +352,7 @@ const achievementDefs = [
     series: 'Luck series',
     seriesKey: 'luck series',
     rarity: 'mythical',
-    icon: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ2uQisgWUYeYHcoRxakh3s8O5vEhbKfRGfpw&s'
+    icon: 'Mythic.jpeg'
   },
   {
     id: 'secret-secret1',
@@ -388,7 +388,7 @@ const achievementDefs = [
     series: 'Main web seriess',
     seriesKey: 'main web series',
     rarity: 'rare',
-    icon: 'https://i.redd.it/uz8gl6ue0p2d1.jpeg'
+    icon: 'OurGeometryDash.jpeg'
   },
   {
     id: 'coin',
@@ -397,7 +397,7 @@ const achievementDefs = [
     series: 'Main web seriess',
     seriesKey: 'main web series',
     rarity: 'uncommon',
-    icon: 'https://media.tenor.com/lFqq1S5jr6IAAAAj/geometry-dash-secret-coin.gif'
+    icon: 'Glubfub.gif'
   },
 ];
 
@@ -748,8 +748,11 @@ let gdProgress = new Set(
 let usedVaultCodes = new Set();
 
 function spawnCoin() {
+  const coinSound = new Audio("coin-collect-geometry-dash.mp3");
+  coinSound.play().catch(err => console.log("Audio play blocked until user interacts with the page."));
+
   const coin = document.createElement("img");
-  coin.src = "https://media.tenor.com/lFqq1S5jr6IAAAAj/geometry-dash-secret-coin.gif";
+  coin.src = "Glubfub.gif";
 
   coin.style.position = "fixed";
   coin.style.left = "50%";
@@ -785,6 +788,7 @@ function spawnCoin() {
     coin.remove();
   }, 700);
 }
+
 
 function incrementGDProgress(code) {
   if (!gdRequiredCodes.includes(code)) return;
